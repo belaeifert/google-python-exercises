@@ -17,13 +17,23 @@ from typing import List, Any
 
 
 def remove_adjacent(nums):
-    #result = [num for num in nums if nums ]
-    result = []
-    for num in nums:
-       if num not in result:
-           result.append(num)
-    return result
 
+    if not nums:
+        return []
+
+    l = [nums[0]]
+
+    for last, n in zip(nums[:-1], nums[1:]):
+        if n != last:
+            l.append(n)
+
+    return  l
+'''
+
+    return ([nums[0]] + [n for p, n in zip(nums[:-1], nums[1:])
+            if n != p]) if nums else []
+
+'''
 
 # E. Given two lists sorted in increasing order, create and return a merged
 # list of all the elements in sorted order. You may modify the passed in lists.
@@ -59,6 +69,7 @@ def main():
     print('remove_adjacent')
     test(remove_adjacent([1, 2, 2, 3]), [1, 2, 3])
     test(remove_adjacent([2, 2, 3, 3, 3]), [2, 3])
+    test(remove_adjacent([2, 2, 3, 3, 3, 2, 2]), [2, 3, 2])
     test(remove_adjacent([]), [])
 
     print()
