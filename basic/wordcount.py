@@ -38,7 +38,54 @@ print_words() and print_top().
 """
 
 import sys
+import os
+import re
+import operator
 
+def print_words(filename):
+    text = read_file(filename)
+    words = format_text(text)
+
+    dict_of_words = count_words(words)
+    print_dict(dict_of_words)
+
+
+def print_top(filename):
+    text = read_file(filename)
+    words = format_text(text)
+
+    dict_of_words = count_words(words)
+    dict_top_20 = {}
+    print(max(dict_of_words.items(), key=20))
+
+def print_dict(dict_of_words):
+    for key in dict_of_words:
+        print(key + ' ' + str(dict_of_words[key]))
+
+def count_words(words):
+    dict = {}
+    for word in words:
+        if dict.__contains__(word):
+            dict[word] += 1
+        else:
+            dict[word] = 1
+    return dict
+
+def read_file(filename):
+    if os.access(filename, os.R_OK):
+        file_object = open(filename)
+        text = file_object.readlines()
+        file_object.close()
+        return ''.join(text)
+    else:
+        print("You don't have permission to read this file")
+
+def format_text(text):
+    formatedString = re.findall("[a-zA-Z-']+", text.lower())
+    text = ' '.join(formatedString)
+    text = text.replace("--", "")
+    text = text.replace(" ' ", "")
+    return text.split()
 
 # +++your code here+++
 # Define print_words(filename) and print_top(filename) functions.
@@ -51,6 +98,8 @@ import sys
 # This basic command line argument parsing code is provided and
 # calls the print_words() and print_top() functions which you must define.
 def main():
+    print_top("alice.txt")
+    '''
     if len(sys.argv) != 3:
         print('usage: ./wordcount.py {--count | --topcount} file')
         sys.exit(1)
@@ -64,7 +113,8 @@ def main():
     else:
         print('unknown option: ' + option)
         sys.exit(1)
-
+    '''
 
 if __name__ == '__main__':
     main()
+
